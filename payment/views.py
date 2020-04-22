@@ -23,6 +23,7 @@ class EventPaymentViewSet(ModelViewSet):
         Event payment method added here
         """
         data = json.loads(request.body)
+        print(data)
         card_number = data.get('card_number', None)
         expiry_month = data.get('expiry_month', None)
         expiry_year = data.get('expiry_year', None)
@@ -61,7 +62,6 @@ class EventPaymentViewSet(ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             data = serializer.data
-            data.pop('status')
             return api_success_response(data=data, message="Payment SuccessFul")
 
         return api_error_response(message="Payment Failed")

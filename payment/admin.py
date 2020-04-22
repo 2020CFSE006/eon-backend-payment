@@ -18,14 +18,14 @@ class PaymentAdmin(admin.ModelAdmin):
     search_fields = ('id', 'status', 'ref_number')
     readonly_fields = ('amount', 'discount_amount', 'total_amount', 'status', 'ref_number')
 
-    # def has_delete_permission(self, request, obj=None):
-    #     return False
-    #
-    # def has_add_permission(self, request):
-    #     return False
-    #
-    # def has_change_permission(self, request, obj=None):
-    #     return False
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
 
 
 admin.site.unregister(Group)
