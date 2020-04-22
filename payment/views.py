@@ -7,13 +7,16 @@ import json
 from rest_framework.viewsets import ModelViewSet
 
 from eon_payment.settings import APP_CONSTANTS
+from payment.models import Payment
 from payment.serializers import PaymentSerializer
 from utils.common import api_error_response, api_success_response
 
 CONSTANTS = APP_CONSTANTS['transaction']['values']
 
 
-class EventPayment(ModelViewSet):
+class EventPaymentViewSet(ModelViewSet):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
 
     def create(self, request, *args, **kwargs):
         """
