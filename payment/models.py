@@ -34,7 +34,7 @@ class Payment(ModelBase):
     total_amount = models.PositiveIntegerField()
     ref_number = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     status = models.PositiveSmallIntegerField(choices=PAYMENT_CONSTANTS["status"], default=0)
-    user_id = models.IntegerField()
+    user_id = models.PositiveIntegerField()
 
     def __str__(self):
         amount = "{}".format(self.total_amount)
