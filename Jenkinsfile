@@ -5,7 +5,7 @@ pipeline {
       AWS_ACCOUNT_ID = "294069028655"
       IMAGE_REPO_NAME = "bits-pilani"
       BUILD_ID = "4.0" //"1.${currentBuild.number}"
-      EKS_KUBECTL_ROLE_ARN = 'arn:aws:iam::294069028655:role/bits-pilani'
+      EKS_KUBECTL_ROLE_ARN = 'arn:aws:iam::294069028655:user/pilani.user'
 
             
       
