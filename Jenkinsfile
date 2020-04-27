@@ -8,11 +8,7 @@ pipeline {
        ECRCRED = 'ecr:eu-central-1:tap_ecr'
    }
     stages {
-        stage('Build') {
-            steps {
-                sh 'docker build -t ${DOCKER_REGISTRY_URL}:${RELEASE_TAG} .'
-            }
-        }
+
         stage('Build preparations'){
             steps{
                 script{
@@ -23,18 +19,29 @@ pipeline {
                     VERSION = shortCommitHash
                     // set the build display name
                     currentBuild.displayName = "#${BUILD_ID}-${VERSION}"
-                    IMAGE = "$PROJECT:$VERSION"
+                    IMAGE = "$ECRURL:$VERSION"
                 }
             }
         }
-        stage('Docker build'){
+        stage('Build') {
+            steps {
+                sh 'docker build -t ${DOCKER_REGISTRY_URL}:${VERSION} .'
+            }
+        }       
+        stage('Docker push'){
             steps{
                 script{
-                    // Build the docker image using a Dockerfile
-                    docker.build("$IMAGE","examples/pipelines/TAP_docker_image_build_push_ecr")
+                    // login to ECR - for now it seems that that the ECR Jenkins plugin is not performing the login as expected. I hope it will in the future.
+                    sh("eval \$(aws ecr get-login --no-include-email | sed 's|https://||')")
+                    // Push the Docker image to ECR
+                    docker.withRegistry(ECRURL, ECRCRED)
+                    {
+                        docker.image(IMAGE).push()
+                    }
                 }
             }
         }
+    }
         stage('Cloudfront invalidation') {
             steps {
                 sh 'aws cloudfront create-invalidation  --distribution-id ${cloudfront_distro_id}  --paths "/*"'
