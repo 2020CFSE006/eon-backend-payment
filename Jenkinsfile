@@ -8,21 +8,6 @@ pipeline {
        ECRCRED = 'ecr:eu-central-1:tap_ecr'
    }
     stages {
-
-        stage('Build preparations'){
-            steps{
-                script{
-                    // calculate GIT lastest commit short-hash
-                    gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-                    shortCommitHash = gitCommitHash.take(7)
-                    // calculate a sample version tag
-                    VERSION = shortCommitHash
-                    // set the build display name
-                    currentBuild.displayName = "#${BUILD_ID}-${VERSION}"
-                    IMAGE = "$ECRURL:$RELEASE_TAG"
-                }
-            }
-        }
         stage('Build') {
             steps {
                 sh 'docker build -t ${DOCKER_REGISTRY_URL}:${RELEASE_TAG} .'
@@ -36,10 +21,10 @@ pipeline {
                    //sh("eval \$(aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 294069028655.dkr.ecr.ap-south-1.amazonaws.com/bits-pilani)")
                    
                     // Push the Docker image to ECR
-                    docker.withRegistry('http://294069028655.dkr.ecr.ap-south-1.amazonaws.com/bits-pilani') {
+                    docker.withRegistry('http://294069028655.dkr.ecr.ap-south-1.amazonaws.com') {
           
                      //build image
-                     def customImage = docker.build("my-image:${env.BUILD_ID}")
+                     def customImage = docker.build("bits-pilani:${env.BUILD_ID}")
 
                      //push image
                      customImage.push()
