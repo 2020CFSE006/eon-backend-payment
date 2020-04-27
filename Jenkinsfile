@@ -41,7 +41,8 @@ pipeline {
                 sh 'export KUBECONFIG=$HOME/.kube/config'
                 sh 'wget https://get.helm.sh/helm-v2.16.3-linux-amd64.tar.gz'
                 sh 'tar -zxvf helm-v2.16.3-linux-amd64.tar.gz'
-                sh 'cd linux-amd64 && mv helm /usr/local/bin/ && cd ..'
+                sh 'cd linux-amd64  && cd ..'
+                sh ' helm help'
               
             }
         }
@@ -51,7 +52,7 @@ pipeline {
                 sh 'aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION'
                 //sh 'aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN  --role-session-name demo-kubectl --duration-seconds 900'
                 sh 'aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name bits-pilani-eon'
-               sh 'kubectl get nodes'
+                sh 'kubectl get nodes'
                 sh 'helm ls'
             }
         }
