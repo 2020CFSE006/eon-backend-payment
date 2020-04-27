@@ -4,7 +4,8 @@ pipeline {
       AWS_DEFAULT_REGION = "ap-south-1"
       AWS_ACCOUNT_ID = "294069028655"
       IMAGE_REPO_NAME = "bits-pilani"
-      BUILD_ID = "${currentBuild.number}"
+      BUILD_ID = "4.0" //"1.${currentBuild.number}"
+      EKS_KUBECTL_ROLE_ARN = 'arn:aws:iam::294069028655:role/bits-pilani'
 
             
       
@@ -33,6 +34,7 @@ pipeline {
         stage('eks authentication') {
             steps {
                 sh 'aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION'
+                sh 'aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN  --role-session-name codebuild-kubectl --duration-seconds 900'
             }
         }
     }
