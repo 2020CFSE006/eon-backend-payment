@@ -31,12 +31,28 @@ pipeline {
                 }
             }
         }
-        stage('eks authentication') {
+       
+        stage(' deploy kubectl and helm packages ') {
+            steps {
+                sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kubectl'
+                sh 'curl -sS -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.13.7/2019-06-11/bin/linux/amd64/aws-iam-authenticator'
+                sh 'chmod +x ./kubectl ./aws-iam-authenticator'
+                sh 'export PATH=$PWD/:$PATH'
+                sh 'export KUBECONFIG=$HOME/.kube/config'
+                sh 'curl -LO https://git.io/get_helm.sh'
+                sh 'chmod 700 get_helm.sh'
+                sh './get_helm.sh'
+                sh ''
+            }
+        }
+       
+        stage('eks authentication and deploy kubectl and helm packages ') {
             steps {
                 sh 'aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION'
                 //sh 'aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN  --role-session-name demo-kubectl --duration-seconds 900'
                 sh 'aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name bits-pilani-eon'
                sh 'kubectl get nodes'
+                sh 'helm ls'
             }
         }
     }
