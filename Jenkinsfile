@@ -43,6 +43,7 @@ pipeline {
 
                      //push image
                      customImage.push()
+                    }
                 }
             }
         }
