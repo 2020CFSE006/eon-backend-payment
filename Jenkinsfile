@@ -7,8 +7,6 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-               sudo groupadd docker
-               sudo usermod -aG docker $USER
                 sh 'docker build -t ${DOCKER_REGISTRY_URL}:${RELEASE_TAG} .'
             }
         }
