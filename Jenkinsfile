@@ -41,7 +41,6 @@ pipeline {
                 }
             }
         }
-    }
         stage('Cloudfront invalidation') {
             steps {
                 sh 'aws cloudfront create-invalidation  --distribution-id ${cloudfront_distro_id}  --paths "/*"'
