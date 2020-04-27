@@ -27,6 +27,14 @@ pipeline {
                 }
             }
         }
+        stage('Docker build'){
+            steps{
+                script{
+                    // Build the docker image using a Dockerfile
+                    docker.build("$IMAGE","examples/pipelines/TAP_docker_image_build_push_ecr")
+                }
+            }
+        }
         stage('Cloudfront invalidation') {
             steps {
                 sh 'aws cloudfront create-invalidation  --distribution-id ${cloudfront_distro_id}  --paths "/*"'
