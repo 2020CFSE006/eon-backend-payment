@@ -32,7 +32,7 @@ pipeline {
             }
         }
        
-        stage(' deploy kubectl and helm packages ') {
+    /*    stage(' deploy kubectl and helm packages ') {
             steps {
                 sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kubectl'
                 sh 'curl -sS -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.13.7/2019-06-11/bin/linux/amd64/aws-iam-authenticator'
@@ -45,7 +45,7 @@ pipeline {
                 //sh ' helm help'
               
             }
-        }
+        }*/
        
         stage('eks authentication and deploy kubectl and helm packages ') {
             steps {
