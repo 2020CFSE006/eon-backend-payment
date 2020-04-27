@@ -32,7 +32,7 @@ pipeline {
                   //   def customImage = docker.build("bits-pilani:${env.BUILD_ID}")
                       sh 'echo Build completed on `date`'
                       sh 'echo Pushing the Docker images...'
-                      sh("docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER-$COMMIT_HASH")
+                      sh 'docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER-$COMMIT_HASH'
                      //push image
                      //customImage.push()
                     //}
