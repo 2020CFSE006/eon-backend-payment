@@ -9,16 +9,16 @@ pipeline {
       AWS_DEFAULT_REGION = "ap-south-1"
       AWS_ACCOUNT_ID = "294069028655"
       IMAGE_REPO_NAME = "bits-pilani"
-      CODEBUILD_BUILD_NUMBER = "previous build number: ${currentBuild.previousBuild.getNumber()}"
-      COMMIT_HASH = "current build number: ${currentBuild.number}"
+      BUILD_ID = "${currentBuild.number}"
+
             
       
    }
     stages {
         stage('Build') {
             steps {
-                sh 'docker build -t $IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER-$COMMIT_HASH .'
-                sh 'docker tag $IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER-$COMMIT_HASH  $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER-$COMMIT_HASH'
+                sh 'docker build -t $IMAGE_REPO_NAME:$BUILD_ID .'
+                sh 'docker tag $IMAGE_REPO_NAME:$BUILD_ID  $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$BUILD_ID'
             }
         }       
         stage('Docker push'){
@@ -29,8 +29,8 @@ pipeline {
 
                       sh 'echo Build completed on `date`'
                       sh 'echo Pushing the Docker images...'
-                      sh 'docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER-$COMMIT_HASH'
-
+                      sh 'docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$BUILD_ID'
+                      sh 'echo code pushed on `date`'
                     //}
                 }
             }
