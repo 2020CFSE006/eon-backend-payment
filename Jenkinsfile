@@ -25,7 +25,7 @@ pipeline {
                     docker.withRegistry('http://294069028655.dkr.ecr.ap-south-1.amazonaws.com','ecr:ap-south-1:aws-creds') {
           
                      //build image
-                     def customImage = docker.build("bits-pilani:${env.BUILD_ID}")
+                  //   def customImage = docker.build("bits-pilani:${env.BUILD_ID}")
 
                      //push image
                      customImage.push()
