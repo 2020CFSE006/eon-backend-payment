@@ -42,7 +42,7 @@ pipeline {
                 sh 'wget https://get.helm.sh/helm-v2.16.3-linux-amd64.tar.gz'
                 sh 'tar -zxvf helm-v2.16.3-linux-amd64.tar.gz'
               //  sh 'cd linux-amd64 && source /root/.bashrc && cd ..'
-                sh ' helm help'
+                //sh ' helm help'
               
             }
         }
