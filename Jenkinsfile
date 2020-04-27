@@ -6,6 +6,7 @@ pipeline {
        PROJECT = 'eon_payment'
        ECRURL = 'http://294069028655.dkr.ecr.ap-south-1.amazonaws.com/bits-pilani'
        ECRCRED = 'ecr:eu-central-1:tap_ecr'
+      AWS_DEFAULT_REGION = "ap-south-1"
    }
     stages {
         stage('Build') {
@@ -17,7 +18,7 @@ pipeline {
             steps{
                 script{
                     // login to ECR - for now it seems that that the ECR Jenkins plugin is not performing the login as expected. I hope it will in the future.
-                   // sh("eval \$(aws ecr get-login --no-include-email | sed 's|https://||')")
+                    sh("eval \$(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION')")
                    //sh("eval \$(aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 294069028655.dkr.ecr.ap-south-1.amazonaws.com/bits-pilani)")
                    
                     // Push the Docker image to ECR
