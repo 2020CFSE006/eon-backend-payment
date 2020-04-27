@@ -7,11 +7,15 @@ pipeline {
        ECRURL = 'http://294069028655.dkr.ecr.ap-south-1.amazonaws.com/bits-pilani'
        ECRCRED = 'ecr:eu-central-1:tap_ecr'
       AWS_DEFAULT_REGION = "ap-south-1"
+      AWS_ACCOUNT_ID = "294069028655"
+      IMAGE_REPO_NAME = "bits-pilani"
+      CODEBUILD_BUILD_NUMBER = "1"
+      COMMIT_HASH = "2"
    }
     stages {
         stage('Build') {
             steps {
-                sh 'docker build -t ${DOCKER_REGISTRY_URL}:${RELEASE_TAG} .'
+                sh 'docker build -t $IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER-$COMMIT_HASH .'
             }
         }       
         stage('Docker push'){
@@ -22,13 +26,15 @@ pipeline {
                    //sh("eval \$(aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 294069028655.dkr.ecr.ap-south-1.amazonaws.com/bits-pilani)")
                    
                     // Push the Docker image to ECR
-                    docker.withRegistry('http://294069028655.dkr.ecr.ap-south-1.amazonaws.com','ecr:ap-south-1:aws-creds') {
+                   // docker.withRegistry('http://294069028655.dkr.ecr.ap-south-1.amazonaws.com','ecr:ap-south-1:aws-creds') {
           
                      //build image
                   //   def customImage = docker.build("bits-pilani:${env.BUILD_ID}")
-
+                      echo Build completed on `date`
+                      echo Pushing the Docker images...
+                      sh("docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER-$COMMIT_HASH")
                      //push image
-                     customImage.push()
+                     //customImage.push()
                     }
                 }
             }
