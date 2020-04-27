@@ -34,7 +34,7 @@ pipeline {
         stage('eks authentication') {
             steps {
                 sh 'aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION'
-                sh 'aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN  --role-session-name codebuild-kubectl --duration-seconds 900'
+                sh 'aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN1  --role-session-name codebuild-kubectl --duration-seconds 900'
             }
         }
     }
