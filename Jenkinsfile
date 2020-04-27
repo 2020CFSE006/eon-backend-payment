@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+   agent {
+     label 'docker' 
+   }
    environment {
        DOCKER_REGISTRY_URL = "294069028655.dkr.ecr.ap-south-1.amazonaws.com/bits-pilani"
        RELEASE_TAG = "0.5"
