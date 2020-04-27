@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker build -t ${DOCKER_REGISTRY_URL}:${RELEASE_TAG} -f app/Dockerfile app/.'
+                sh 'docker build -t ${DOCKER_REGISTRY_URL}:${RELEASE_TAG} .'
             }
         }
         stage('Pushing to S3') {
