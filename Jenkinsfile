@@ -41,7 +41,7 @@ pipeline {
                 sh 'export KUBECONFIG=$HOME/.kube/config'
                 sh 'wget https://get.helm.sh/helm-v2.16.3-linux-amd64.tar.gz'
                 sh 'tar -zxvf helm-v2.16.3-linux-amd64.tar.gz'
-                sh 'cd linux-amd64 && sudo  mv helm /usr/local/bin/ && cd ..'
+                sh 'cd linux-amd64 && mv helm /usr/local/bin/ && cd ..'
               
             }
         }
