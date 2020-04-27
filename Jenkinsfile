@@ -9,8 +9,10 @@ pipeline {
       AWS_DEFAULT_REGION = "ap-south-1"
       AWS_ACCOUNT_ID = "294069028655"
       IMAGE_REPO_NAME = "bits-pilani"
-      CODEBUILD_BUILD_NUMBER = "1"
-      COMMIT_HASH = "2"
+      CODEBUILD_BUILD_NUMBER = sh "previous build number: ${currentBuild.previousBuild.getNumber()}"
+      COMMIT_HASH = sh "current build number: ${currentBuild.number}"
+            
+      
    }
     stages {
         stage('Build') {
