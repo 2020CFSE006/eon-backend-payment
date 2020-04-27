@@ -34,11 +34,14 @@ pipeline {
        
         stage(' deploy kubectl and helm packages ') {
             steps {
-                sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kubectl'
+                sh 'curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/kubectl'
                 sh 'curl -sS -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.13.7/2019-06-11/bin/linux/amd64/aws-iam-authenticator'
                 sh 'chmod +x ./kubectl ./aws-iam-authenticator'
-                sh 'export KUBECONFIG=$HOME/.kube/config'
-                sh 'export PATH=$PWD/:$PATH'
+                //sh 'export KUBECONFIG=$HOME/.kube/config'
+                sh 'mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin'
+                sh 'export PATH=$PATH:$HOME/bin >> ~/.bashrc'
+                sh 'kubectl version --short --client'
+               
                 sh 'wget https://get.helm.sh/helm-v2.16.3-linux-amd64.tar.gz'
                 sh 'tar -zxvf helm-v2.16.3-linux-amd64.tar.gz'
               //  sh 'cd linux-amd64 && source /root/.bashrc && cd ..'
