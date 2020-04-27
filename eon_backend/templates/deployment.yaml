@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.service }}-deployment
+  labels:
+    app: {{ .Values.service }}
+spec:
+  replicas: {{ .Values.replica_count }}
+  selector:
+    matchLabels:
+      app: {{ .Values.service }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.service }}
+    spec:
+      containers:
+      - env:
+        - name: DB_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: DB_HOSTNAME
+              name: {{ .Values.configmap_env }}
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: DB_NAME
+              name: {{ .Values.configmap_env }}
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              key: DB_USERNAME
+              name: {{ .Values.configmap_env }}
+        - name: DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: DB_PASSWORD
+              name: {{ .Values.configmap_env }}
+        - name: CLOUD_PROVIDER
+          valueFrom:
+            configMapKeyRef:
+              key: CLOUD_PROVIDER
+              name: {{ .Values.configmap_env }}
+        name: {{ .Values.service }}
+        image: {{ .Values.image }}
+      resources:
+        requests:
+          cpu: {{ .Values.requests_cpu }}
+          memory: {{ .Values.requests_memory }}
+        limits:
+          cpu: {{ .Values.limits_cpu }}
+          memory: {{ .Values.limits_memory }}
+      envFrom:
+      - configMapRef:
+          name: {{ .Values.configmap_env }}
+      volumeMounts:
+      - name: {{ .Values.volume_name }}
+        mountPath: /static
+      ports:
+      - containerPort: {{ .Values.containerport }}
+      imagePullSecrets:
+      - name: {{ .Values.secret_name }}
+  volumes:
+    - name: {{ .Values.volume_name }}
+      configMap:
+        name: {{ .Values.service }}-{{ .Values.config_version }}
