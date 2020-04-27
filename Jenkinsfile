@@ -19,13 +19,13 @@ pipeline {
                     VERSION = shortCommitHash
                     // set the build display name
                     currentBuild.displayName = "#${BUILD_ID}-${VERSION}"
-                    IMAGE = "$ECRURL:$VERSION"
+                    IMAGE = "$ECRURL:$RELEASE_TAG"
                 }
             }
         }
         stage('Build') {
             steps {
-                sh 'docker build -t ${DOCKER_REGISTRY_URL}:${VERSION} .'
+                sh 'docker build -t ${DOCKER_REGISTRY_URL}:${RELEASE_TAG} .'
             }
         }       
         stage('Docker push'){
