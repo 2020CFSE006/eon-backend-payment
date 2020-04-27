@@ -9,8 +9,8 @@ pipeline {
       AWS_DEFAULT_REGION = "ap-south-1"
       AWS_ACCOUNT_ID = "294069028655"
       IMAGE_REPO_NAME = "bits-pilani"
-      CODEBUILD_BUILD_NUMBER = sh "previous build number: ${currentBuild.previousBuild.getNumber()}"
-      COMMIT_HASH = sh "current build number: ${currentBuild.number}"
+      CODEBUILD_BUILD_NUMBER = "previous build number: ${currentBuild.previousBuild.getNumber()}"
+      COMMIT_HASH = "current build number: ${currentBuild.number}"
             
       
    }
