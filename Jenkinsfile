@@ -1,11 +1,6 @@
 pipeline {
    agent any
    environment {
-       DOCKER_REGISTRY_URL = "294069028655.dkr.ecr.ap-south-1.amazonaws.com/bits-pilani"
-       RELEASE_TAG = "0.5"
-       PROJECT = 'eon_payment'
-       ECRURL = 'http://294069028655.dkr.ecr.ap-south-1.amazonaws.com/bits-pilani'
-       ECRCRED = 'ecr:eu-central-1:tap_ecr'
       AWS_DEFAULT_REGION = "ap-south-1"
       AWS_ACCOUNT_ID = "294069028655"
       IMAGE_REPO_NAME = "bits-pilani"
@@ -35,9 +30,9 @@ pipeline {
                 }
             }
         }
-        stage('Cloudfront invalidation') {
+        stage('eks authentication') {
             steps {
-                sh 'aws cloudfront create-invalidation  --distribution-id ${cloudfront_distro_id}  --paths "/*"'
+                sh 'aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION'
             }
         }
     }
