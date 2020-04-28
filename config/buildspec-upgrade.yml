@@ -28,7 +28,8 @@ phases:
       - sleep 20
     #  - helm init --upgrade
 #      - helm install --name eon-backend-payment eon_backend/
-      - helm upgrade --recreate-pods eon-backend-pay eon_backend/ --namespace eon-backend-ns
+  #    - helm upgrade --recreate-pods eon-backend-pay eon_backend/ --namespace eon-backend-ns
+      - helm upgrade --install --force eon-backend-pay --namespace eon-backend-ns ./eon_backend
       - sleep 20 
       - kubectl get services -o wide
 
