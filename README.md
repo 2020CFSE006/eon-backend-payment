@@ -2,6 +2,9 @@
 
 This is a microsevice based payment django project for BITS EOn.
 
+## Prerequisites
+- Mongo
+
 ## Important Features
 
 - Python 3+
@@ -17,7 +20,7 @@ $ virtualenv <virtual_env_name_of_your_choice>
 $ source <virtual_env_name_of_your_choice>/bin/activate
 $ pip install -r requirements.txt
 ```
-https://github.com/bits-pgp-fse/eon-backend-payment.git
+
 ## Environment variables
 
 ```
@@ -34,5 +37,6 @@ DB_PORT=27017
 ## Run Server
 
 ```bash
+$ python manage.py migrate
 $ python manage.py runserver
 ```
