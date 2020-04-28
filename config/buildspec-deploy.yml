@@ -22,7 +22,6 @@ phases:
       - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
       - aws eks --region ap-south-1  update-kubeconfig --name bits-pilani-eon --role-arn $EKS_KUBECTL_ROLE_ARN
       - cat /root/.kube/config
-      - eksctl create iamidentitymapping --name  bits-pilani-eon --region ap-south-1 --role $EKS_KUBECTL_ROLE_ARN --group system:masters --username build
       - kubectl get svc
       - kubectl apply -f tiller-user.yaml
       - sleep 10
