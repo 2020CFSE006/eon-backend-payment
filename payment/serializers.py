@@ -16,4 +16,4 @@ class PaymentSerializer(serializers.ModelSerializer):
         To override the database table name, use the db_table parameter in class Meta.
         """
         model = Payment
-        fields = ('id', 'amount', 'discount_amount', 'total_amount', 'ref_number', 'status')
+        fields = ('id', 'amount', 'discount_amount', 'total_amount', 'ref_number', 'status', 'user_id')
