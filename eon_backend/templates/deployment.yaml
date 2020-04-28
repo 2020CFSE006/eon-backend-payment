@@ -40,7 +40,22 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: CLOUD_PROVIDER
+              name: {{ .Values.configmap_env }}            
+        - name: DECODE_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: DECODE_KEY
               name: {{ .Values.configmap_env }}
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: DB_PORT
+              name: {{ .Values.configmap_env }}
+        - name: SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: SECRET_KEY
+              name: {{ .Values.configmap_env }}                    
         name: {{ .Values.service }}
         image: {{ .Values.image }}
       resources:
