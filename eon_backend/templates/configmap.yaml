@@ -5,7 +5,9 @@ data:
   DB_NAME: "mongodb"
   DB_USERNAME:
   DB_PASSWORD:
-  
+  DECODE_KEY: "sc6#6@en-9r(-(6=*uiw1xsds&(xxpjea=0bzr%nozw=25$vj)"
+  DB_PORT: 27017
+  SECRET_KEY: '8=wmxtm$obl=!j4-t!m6w)j=tt)s=od6*j_8k^_i8@4cr)2pi_'  
 kind: ConfigMap
 metadata:
   labels:
