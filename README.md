@@ -31,6 +31,7 @@ DB_HOSTNAME=localhost
 DB_PORT=27017
 
 ```
+Note: Use different port to run payment app simultaneously with eon-backend app
 
 ## Run Server
 
