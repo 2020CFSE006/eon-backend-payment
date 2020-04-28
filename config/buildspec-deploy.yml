@@ -24,9 +24,9 @@ phases:
       - cat /root/.kube/config
       - kubectl get svc
       - kubectl apply -f tiller-user.yaml
-      - sleep 10
+      - sleep 30
       - helm init --service-account tiller
-      - sleep 20
+      - sleep 40
 #      - helm init --upgrade
       - helm install --name eon-backend-payment eon_backend/
 #      - helm upgrade --recreate-pods eon-backend-payment eon_backend/
