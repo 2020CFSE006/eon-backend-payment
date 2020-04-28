@@ -26,7 +26,7 @@ phases:
       - sleep 10
       - helm init --service-account tiller
       - sleep 20
-      - helm init --upgrade
+    #  - helm init --upgrade
 #      - helm install --name eon-backend-payment eon_backend/
       - helm upgrade --recreate-pods eon-backend-payment eon_backend/ --namespace eon-backend-payment
       - sleep 20 
