@@ -6,7 +6,7 @@ This is a microservice based payment django app for BITS EOn.
 
 - Python 3+
 - Django 2.0+
-- Database Postgres
+- Database Mongo
 - Uses Pipenv, Virtualenv
 
 ## Installation
