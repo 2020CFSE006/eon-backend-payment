@@ -7,8 +7,8 @@ phases:
       - chmod +x ./kubectl ./aws-iam-authenticator
       - export PATH=$PWD/:$PATH
       - export KUBECONFIG=$HOME/.kube/config
-      - wget https://get.helm.sh/helm-v2.12.3-linux-amd64.tar.gz
-      - tar xvf helm-v2.12.3-linux-amd64.tar.gz
+      - wget https://get.helm.sh/helm-v2.16.3-linux-amd64.tar.gz
+      - tar -zxvf helm-v2.16.3-linux-amd64.tar.gz
       - cd linux-amd64 && mv helm /usr/local/bin/ && cd ..
 #      - aws s3 cp s3://bits-us-west2/name.txt ./
       - $(aws ecr get-login --no-include-email --region ap-south-1)
