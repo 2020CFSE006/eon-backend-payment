@@ -24,13 +24,14 @@ phases:
       - cat /root/.kube/config
       - kubectl get svc
       - kubectl apply -f tiller-user.yaml
-      - sleep 30
+      - sleep 10
       - helm init --service-account tiller
-      - sleep 40
+      - sleep 10
 #      - helm init --upgrade
+      - helm del --purge eon-backend-pay
       - helm install --name eon-backend-pay eon_backend/ --namespace eon-backend-ns
 #      - helm upgrade --recreate-pods eon-backend-payment eon_backend/
-      - sleep 20 
+      - sleep 10 
       - kubectl get services -o wide
 
 artifacts:
