@@ -13,6 +13,8 @@ phases:
 #      - aws s3 cp s3://bits-us-west2/name.txt ./
       - $(aws ecr get-login --no-include-email --region ap-south-1)
 #      - NAME=$(cat name.txt)
+      - curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+      - mv /tmp/eksctl /usr/local/bin
       - CREDENTIALS=$(aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN  --role-session-name codebuild-kubectl --duration-seconds 900)
       - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
       - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
@@ -20,8 +22,8 @@ phases:
       - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
       - aws eks --region ap-south-1  update-kubeconfig --name bits-pilani-eon --role-arn $EKS_KUBECTL_ROLE_ARN
       - cat /root/.kube/config
-
-      - kubectl get nodes
+      - eksctl create iamidentitymapping --name  bits-pilani-eon --region ap-south-1 --role $EKS_KUBECTL_ROLE_ARN --group system:masters --username build
+      - kubectl get svc
       - kubectl apply -f tiller-user.yaml
       - sleep 10
       - helm init --service-account tiller
