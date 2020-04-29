@@ -1,6 +1,11 @@
+
 # EOn Payment
 
 This is a microservice based payment django app for BITS EOn.
+
+## Prerequisites
+- Mongo
+
 
 ## Important Features
 
@@ -29,13 +34,13 @@ DB_USERNAME=<db_user>
 DB_PASSWORD=<your_password>
 DB_HOSTNAME=localhost
 DB_PORT=27017
-
 ```
 Note: Use different port to run payment app simultaneously with eon-backend app
+
 
 ## Run Server
 
 ```bash
+$ python manage.py migrate
 $ python manage.py runserver
 ```
-
