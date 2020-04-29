@@ -33,7 +33,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -134,8 +133,6 @@ STATICFILES_DIRS = (
 )
 
 APP_CONSTANTS = APPLICATION_CONSTANTS
-
-GRAPPELLI_ADMIN_TITLE = "BITS EOn"
 
 CORS_ORIGIN_ALLOW_ALL = True
 
