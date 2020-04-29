@@ -1,0 +1,38 @@
+version: 0.1
+phases:
+  install:
+    commands:
+      - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kubectl
+      - curl -sS -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.13.7/2019-06-11/bin/linux/amd64/aws-iam-authenticator
+      - chmod +x ./kubectl ./aws-iam-authenticator
+      - export PATH=$PWD/:$PATH
+      - export KUBECONFIG=$HOME/.kube/config
+      - wget https://get.helm.sh/helm-v2.16.3-linux-amd64.tar.gz
+      - tar -zxvf helm-v2.16.3-linux-amd64.tar.gz
+      - cd linux-amd64 && mv helm /usr/local/bin/ && cd ..
+#      - aws s3 cp s3://bits-us-west2/name.txt ./
+      - $(aws ecr get-login --no-include-email --region ap-south-1)
+#      - NAME=$(cat name.txt)
+      - CREDENTIALS=$(aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN  --role-session-name codebuild-kubectl --duration-seconds 900)
+      - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
+      - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
+      - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
+      - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
+      - aws --region ap-south-1 eks update-kubeconfig --name bits-pilani-eon --role-arn $EKS_KUBECTL_ROLE_ARN
+
+
+      - kubectl get nodes
+      - kubectl apply -f tiller-user.yaml
+      - sleep 10
+      - helm init --service-account tiller
+      - sleep 20
+    #  - helm init --upgrade
+#      - helm install --name eon-backend-payment eon_backend/
+  #    - helm upgrade --recreate-pods eon-backend-pay eon_backend/ --namespace eon-backend-ns
+      - helm upgrade --install --force eon-backend-pay --namespace eon-backend-ns ./eon_backend
+      - sleep 20 
+      - kubectl get services -o wide
+
+artifacts:
+  files:
+    - '**/*'

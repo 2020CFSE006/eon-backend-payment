@@ -4,16 +4,21 @@ Payment related views are here
 import datetime
 import json
 
+import jwt
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.authentication import get_authorization_header
 
-from eon_payment.settings import APP_CONSTANTS
+from eon_payment.settings import APP_CONSTANTS, DECODE_KEY
+from payment.models import Payment
 from payment.serializers import PaymentSerializer
 from utils.common import api_error_response, api_success_response
 
 CONSTANTS = APP_CONSTANTS['transaction']['values']
 
 
-class EventPayment(ModelViewSet):
+class EventPaymentViewSet(ModelViewSet):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
 
     def create(self, request, *args, **kwargs):
         """
@@ -30,6 +35,10 @@ class EventPayment(ModelViewSet):
         now = datetime.datetime.now()
         year = now.year
         month = now.month
+
+        token = get_authorization_header(request).split()[1]
+        payload = jwt.decode(token, DECODE_KEY)
+        user_id = payload['user_id']
 
         if not discount_amount:
             discount_amount = 0
@@ -53,12 +62,31 @@ class EventPayment(ModelViewSet):
                 check = True
         if check:
             data = dict(amount=amount, discount_amount=discount_amount, total_amount=total_amount,
-                        status=status)
+                        status=status, user_id=user_id)
             serializer = PaymentSerializer(data=data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             data = serializer.data
-            data.pop('status')
             return api_success_response(data=data, message="Payment SuccessFul")
 
         return api_error_response(message="Payment Failed")
+
+    def list(self, request, *args, **kwargs):
+        """
+            List the payment entry
+        """
+        data = json.loads(request.body)
+        list_of_payment_ids = data.get("list_of_payment_ids")
+
+        token = get_authorization_header(request).split()[1]
+        payload = jwt.decode(token, DECODE_KEY)
+        user_id = payload['user_id']
+
+        user_instance = self.queryset.filter(user_id=user_id)
+        if not user_instance:
+            return api_error_response(message="No entry for this user", status=400)
+        payment_details = user_instance.filter(id__in=list_of_payment_ids)
+
+        serializer = PaymentSerializer(payment_details, many=True)
+        return api_success_response(data=serializer.data, message="Payment details")
+

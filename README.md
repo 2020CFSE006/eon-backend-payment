@@ -1,15 +1,17 @@
-# eon-payment
 
-This is a microsevice based payment django project for BITS EOn.
+# EOn Payment
+
+This is a microservice based payment django app for BITS EOn.
 
 ## Prerequisites
 - Mongo
+
 
 ## Important Features
 
 - Python 3+
 - Django 2.0+
-- Database MongoDb
+- Database Mongo
 - Uses Pipenv, Virtualenv
 
 ## Installation
@@ -33,6 +35,8 @@ DB_PASSWORD=<your_password>
 DB_HOSTNAME=localhost
 DB_PORT=27017
 ```
+Note: Use different port to run payment app simultaneously with eon-backend app
+
 
 ## Run Server
 

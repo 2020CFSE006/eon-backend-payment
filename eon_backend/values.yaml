@@ -1,0 +1,19 @@
+image: 294069028655.dkr.ecr.ap-south-1.amazonaws.com/bits-pilani:latest
+
+replica_count: 1
+config_version: v1
+config_dir: config
+configmap_env: env-vars
+secret_name: bits-pilani-secret
+volume_name: config-volume
+minReplicas: 1
+maxReplicas: 1
+targetCPUUtilizationPercentage: 95
+requests_cpu: 1000m
+requests_memory: 1024Mi
+limits_memory: 3584Mi
+limits_cpu: 2000m
+service: demo
+containerport: 8000
+exposedport: 8000
+
