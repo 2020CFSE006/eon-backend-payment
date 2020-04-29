@@ -3,7 +3,6 @@ Payment related views are here
 """
 import datetime
 import json
-from base64 import b64decode
 
 import jwt
 from rest_framework.viewsets import ModelViewSet
@@ -39,7 +38,7 @@ class EventPaymentViewSet(ModelViewSet):
 
         token = get_authorization_header(request).split()[1]
 
-        payload = jwt.decode(token, b64decode(DECODE_KEY))
+        payload = jwt.decode(token, DECODE_KEY, verify=False)
         user_id = payload['user_id']
 
         if not discount_amount:
@@ -82,7 +81,7 @@ class EventPaymentViewSet(ModelViewSet):
 
         token = get_authorization_header(request).split()[1]
 
-        payload = jwt.decode(token, b64decode(DECODE_KEY))
+        payload = jwt.decode(token, DECODE_KEY, verify=False)
         user_id = payload['user_id']
 
         user_instance = self.queryset.filter(user_id=user_id)
