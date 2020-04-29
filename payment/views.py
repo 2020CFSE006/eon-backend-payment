@@ -25,11 +25,7 @@ class EventPaymentViewSet(ModelViewSet):
         Event payment method added here
         """
         jwt_options = {
-            'verify_signature': True,
-            'verify_exp': True,
-            'verify_nbf': False,
-            'verify_iat': True,
-            'verify_aud': False
+            'verify_signature': False,
         }
         data = json.loads(request.body)
         card_number = data.get('card_number', None)
@@ -44,7 +40,7 @@ class EventPaymentViewSet(ModelViewSet):
         month = now.month
 
         token = get_authorization_header(request).split()[1]
-        payload = jwt.decode(token, DECODE_KEY)
+        payload = jwt.decode(token, DECODE_KEY, options=jwt_options)
         user_id = payload['user_id']
 
         if not discount_amount:
