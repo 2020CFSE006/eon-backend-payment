@@ -25,6 +25,13 @@ class EventPaymentViewSet(ModelViewSet):
         """
         Event payment method added here
         """
+        jwt_options = {
+            'verify_signature': True,
+            'verify_exp': True,
+            'verify_nbf': False,
+            'verify_iat': True,
+            'verify_aud': False
+        }
         data = json.loads(request.body)
         card_number = data.get('card_number', None)
         expiry_month = data.get('expiry_month', None)
@@ -38,7 +45,7 @@ class EventPaymentViewSet(ModelViewSet):
         month = now.month
 
         token = get_authorization_header(request).split()[1]
-        payload = jwt.decode(token, b64decode(DECODE_KEY), algorithms=['HS256'])
+        payload = jwt.decode(token, key=b64decode(DECODE_KEY), algorithms=['HS256'], options=jwt_options)
         user_id = payload['user_id']
 
         if not discount_amount:
@@ -76,11 +83,18 @@ class EventPaymentViewSet(ModelViewSet):
         """
             List the payment entry
         """
+        jwt_options = {
+            'verify_signature': True,
+            'verify_exp': True,
+            'verify_nbf': False,
+            'verify_iat': True,
+            'verify_aud': False
+        }
         data = json.loads(request.body)
         list_of_payment_ids = data.get("list_of_payment_ids")
 
         token = get_authorization_header(request).split()[1]
-        payload = jwt.decode(token, b64decode(DECODE_KEY), algorithms=['HS256'])
+        payload = jwt.decode(token, key=b64decode(DECODE_KEY), algorithms=['HS256'], options=jwt_options)
         user_id = payload['user_id']
 
         user_instance = self.queryset.filter(user_id=user_id)
