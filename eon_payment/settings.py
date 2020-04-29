@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = '8=wmxtm$obl=!j4-t!m6w)j=tt)s=od6*j_8k^_i8@4cr)2pi_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -139,4 +139,4 @@ GRAPPELLI_ADMIN_TITLE = "BITS EOn"
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-DECODE_KEY = os.environ.get("DECODE_KEY")
+DECODE_KEY = 'sc6#6@en-9r(-(6=*uiw1xsds&(xxpjea=0bzr%nozw=25$vj)'
