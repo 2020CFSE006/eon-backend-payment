@@ -37,7 +37,6 @@ class EventPaymentViewSet(ModelViewSet):
         month = now.month
 
         token = get_authorization_header(request).split()[1]
-        # token = request.META.get('HTTP_AUTHORIZATION').split()[1]
         print(type(token))
         print(type(DECODE_KEY))
         print(len(token))
