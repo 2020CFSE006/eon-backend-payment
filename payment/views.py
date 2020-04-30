@@ -36,8 +36,9 @@ class EventPaymentViewSet(ModelViewSet):
         year = now.year
         month = now.month
 
-        # token = get_authorization_header(request).split()[1]
-        token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTkzNDI3OTUxLCJqdGkiOiI4OGY2OTJlYzcyOGQ0ZGJhYmM1N2VkZjVkMWUwMTA3MiIsInVzZXJfaWQiOjV9.4eBN6RZmT6S7fDcZLgS_dxXLSvNgVaBNrbyS4Uwmi9Y'
+        token = request.headers.get('authorization', None).split()[1]
+        token = str(token)
+
         payload = jwt.decode(token, DECODE_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         if not discount_amount:
