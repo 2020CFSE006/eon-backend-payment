@@ -8,7 +8,7 @@ import jwt
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.authentication import get_authorization_header
 
-from eon_payment.settings import APP_CONSTANTS, DECODE_KEY
+from eon_payment.settings import APP_CONSTANTS, DECODE_KEY, SECRET_KEY
 from payment.models import Payment
 from payment.serializers import PaymentSerializer
 from utils.common import api_error_response, api_success_response
@@ -36,10 +36,8 @@ class EventPaymentViewSet(ModelViewSet):
         year = now.year
         month = now.month
 
-        token = request.headers.get('authorization', None).split()[1]
-        token = str(token)
-        print(token)
-        payload = jwt.decode(token, DECODE_KEY, algorithms=['HS256'])
+        token = get_authorization_header(request).split()[1]
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         if not discount_amount:
             discount_amount = 0
