@@ -36,13 +36,8 @@ class EventPaymentViewSet(ModelViewSet):
         year = now.year
         month = now.month
 
-        # token = get_authorization_header(request).split()[1]
-        # print(type(token), type(DECODE_KEY), len(token), len(DECODE_KEY))
-        # print("JWTCode==" + str(token) + "||")
-        # print("Key==" + DECODE_KEY + "||")
-        payload = jwt.decode("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTg4MzI3ODYwLCJqdGkiOiIwYWVhNDNmNDNiMDE0Y2RjOGQ0OGMzNDgxNTk1MDBkMCIsInVzZXJfaWQiOjV9.2dLTrjs4vO1hGX_3qv0ZCf35oXJJUBsYLlCJk8OtDNY", "sc6#6@en-9r(-(6=*uiw1xsds&(xxpjea=0bzr%nozw=25$vj)", algorithms=['HS256'])
-        # payload = jwt.decode(token, DECODE_KEY, algorithms=['HS256'])
-        # print(payload)
+        payload = jwt.decode('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTg4MzI4OTY3LCJqdGkiOiI4MTM3ZGU3MjZlZTk0MTZjYTg4ZDRiODgxZDZjOTdlYSIsInVzZXJfaWQiOjV9.RmnhxXntJ7xfAn5kflTQf8AB6AwnGm4PdSkQrQjX_WA', 'sc6#6@en-9r(-(6=*uiw1xsds&(xxpjea=0bzr%nozw=25$vj)', algorithms=['HS256'])
+
         user_id = payload['user_id']
         if not discount_amount:
             discount_amount = 0
