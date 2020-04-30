@@ -43,7 +43,7 @@ class EventPaymentViewSet(ModelViewSet):
         print(len(DECODE_KEY))
         print("token ==> " + str(token))
         print("key ==> " + DECODE_KEY)
-        payload = jwt.decode(token, DECODE_KEY, algorithms=['HS256'])
+        payload = jwt.decode(token.decode('utf-8'), DECODE_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         if not discount_amount:
             discount_amount = 0
