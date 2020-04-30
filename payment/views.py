@@ -35,15 +35,9 @@ class EventPaymentViewSet(ModelViewSet):
         now = datetime.datetime.now()
         year = now.year
         month = now.month
+        token_value = data.get('token', None)
 
-        token = get_authorization_header(request).split()[1]
-        print(type(token))
-        print(type(DECODE_KEY))
-        print(len(token))
-        print(len(DECODE_KEY))
-        print("token ==> " + str(token))
-        print("key ==> " + DECODE_KEY)
-        payload = jwt.decode(token.decode('utf-8'), DECODE_KEY, algorithms=['HS256'])
+        payload = jwt.decode(token_value, DECODE_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
         if not discount_amount:
             discount_amount = 0
