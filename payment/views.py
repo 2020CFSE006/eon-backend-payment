@@ -81,7 +81,7 @@ class EventPaymentViewSet(ModelViewSet):
 
         token = get_authorization_header(request).split()[1]
 
-        payload = jwt.decode(token, DECODE_KEY)
+        payload = jwt.decode(token, DECODE_KEY, verify=False)
         user_id = payload['user_id']
 
         user_instance = self.queryset.filter(user_id=user_id)
