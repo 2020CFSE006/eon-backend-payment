@@ -7,22 +7,18 @@ from eon_payment.settings import DECODE_KEY
 
 class CustomJWTAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
-        token = get_authorization_header(request)
+        token = request.headers.get('authorization', None)
         if not token:
             raise exceptions.NotAuthenticated
 
         token = token.split()
-        if len(token) > 2 or len(token) < 2:
+        token_length = len(token)
+        if token_length > 2 or token_length < 2 or token[0] != 'Bearer':
             raise exceptions.AuthenticationFailed
-
-        if token[0] != 'Bearer':
-            raise exceptions.AuthenticationFailed
-
-        token = token.split()[1]
-
         try:
-            payload = jwt.decode(token, DECODE_KEY, algorithms=['HS256'])
+            payload = jwt.decode(token[1], DECODE_KEY, algorithms=['HS256'])
+            print(payload)
         except:
-            raise exceptions.ValidationError('Token Validation Failed')
+            raise exceptions.ValidationError({'message': 'Signature Validation Failed'})
 
         return payload['user_id'], None
