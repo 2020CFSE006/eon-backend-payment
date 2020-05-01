@@ -8,7 +8,7 @@ import jwt
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.authentication import get_authorization_header
 
-from eon_payment.settings import APP_CONSTANTS, DECODE_KEY, SECRET_KEY
+from eon_payment.settings import APP_CONSTANTS, DECODE_KEY
 from payment.models import Payment
 from payment.serializers import PaymentSerializer
 from utils.common import api_error_response, api_success_response
