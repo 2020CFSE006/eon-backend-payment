@@ -32,7 +32,7 @@ phases:
       - helm init --service-account tiller
       - sleep 10
 #      - helm init --upgrade
-      - helm del --purge eon-backend-payment
+#      - helm del --purge eon-backend-payment
       - helm install --name eon-backend-payment eon_backend/ --namespace eon-backend-namespace
 #      - helm upgrade --recreate-pods eon-backend-payment eon_backend/
       - sleep 10 
