@@ -2,6 +2,10 @@ version: 0.1
 phases:
   install:
     commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+ #     - export COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)     
       - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kubectl
       - curl -sS -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.13.7/2019-06-11/bin/linux/amd64/aws-iam-authenticator
       - chmod +x ./kubectl ./aws-iam-authenticator
@@ -23,15 +27,17 @@ phases:
 
       - kubectl get nodes
       - kubectl apply -f tiller-user.yaml
-      - sleep 10
+      - sleep 5
       - helm init --service-account tiller
-      - sleep 20
+      - sleep 5
     #  - helm init --upgrade
 #      - helm install --name eon-backend-payment eon_backend/
-  #    - helm upgrade --recreate-pods eon-backend-pay eon_backend/ --namespace eon-backend-ns
-      - helm upgrade --install --force eon-backend-pay --namespace eon-backend-ns ./eon_backend
-      - sleep 20 
-      - kubectl get services -o wide
+     # - export TOKEN="$(aws ecr get-login-password --region ${AWS_DEFAULT_REGION})"
+     # - echo $TOKEN
+     # - $(kubectl create secret docker-registry ecr-secret --docker-server=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME --docker-username=AWS --docker-password=$TOKEN --namespace eon-backend-namespace)
+      - "helm upgrade --install --force eon-backend-payment ./eon_backend --namespace eon-backend-namespace --set image=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest"
+      - sleep 10 
+      - kubectl get services -o wide -n eon-backend-namespace
 
 artifacts:
   files:
