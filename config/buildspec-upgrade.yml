@@ -30,13 +30,7 @@ phases:
       - sleep 5
       - helm init --service-account tiller
       - sleep 5
-    #  - helm init --upgrade
-#      - helm install --name eon-backend-payment eon_backend/
-     # - export TOKEN="$(aws ecr get-login-password --region ${AWS_DEFAULT_REGION})"
-     # - echo $TOKEN
-     # - $(kubectl create secret docker-registry ecr-secret --docker-server=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME --docker-username=AWS --docker-password=$TOKEN --namespace eon-backend-namespace)
-      #- "helm upgrade --install --force eon-backend-payment ./eon_backend --namespace eon-backend-namespace --set image=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest"
-      - "helm upgrade --install --force eon-backend-payment ./eon_backend --namespace eon-backend-namespace"      
+      - "helm upgrade --install --force eon-backend-payment eon_backend/ --namespace eon-backend-namespace"      
       - sleep 10 
       - kubectl get services -o wide -n eon-backend-namespace
 
