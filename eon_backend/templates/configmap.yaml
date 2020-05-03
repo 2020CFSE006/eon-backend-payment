@@ -3,8 +3,8 @@ data:
   CLOUD_PROVIDER:
   DB_HOSTNAME: "52.66.199.15"
   DB_NAME: "mongodb"
-  DB_USERNAME: 'bits-pilani'
-  DB_PASSWORD: 'Hash@1234'
+  DB_USERNAME: "bits-pilani"
+  DB_PASSWORD: "Hash@1234"
   DECODE_KEY: "EAod6K1rmoKQJbEJKOoElVEvptLDPnlc"
   DB_PORT: "27017"
   SECRET_KEY: "8=wmxtm$obl=!j4-t!m6w)j=tt)s=od6*j_8k^_i8@4cr)2pi_"
