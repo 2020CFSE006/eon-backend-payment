@@ -4,7 +4,7 @@ replica_count: 1
 config_version: v1
 config_dir: config
 configmap_env: env-vars
-secret_name: bits-pilani-secret
+secret_name: ecr-secret
 volume_name: config-volume
 minReplicas: 1
 maxReplicas: 1
