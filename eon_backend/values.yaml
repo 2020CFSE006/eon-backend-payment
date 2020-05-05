@@ -1,4 +1,4 @@
-image: 294069028655.dkr.ecr.ap-south-1.amazonaws.com/bits-pilani:latest
+image: 072302530057.dkr.ecr.ap-south-1.amazonaws.com/bits-pilani-ecr:latest
 
 replica_count: 1
 config_version: v1
