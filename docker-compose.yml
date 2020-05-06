@@ -11,6 +11,6 @@ services:
       DB_PASSWORD: 
       DECODE_KEY: 
       SECRET_KEY: 
-      DB_HOSTNAME: 52.66.199.15
+      DB_HOSTNAME:
     ports:
       - 8000:8000
