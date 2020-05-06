@@ -1,5 +1,4 @@
-#image: 072302530057.dkr.ecr.ap-south-1.amazonaws.com/bits-pilani-ecr:latest
-image: 294069028655.dkr.ecr.ap-south-1.amazonaws.com/bits-pilani:119-b5292a0:latest
+image:
 replica_count: 1
 config_version: v1
 config_dir: config
