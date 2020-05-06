@@ -6,11 +6,11 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      DB_NAME: 'mongodb'
-      DB_USERNAME: 'bits-pilani'
-      DB_PASSWORD: 'Hash@1234'
-      DECODE_KEY: 'sc6#6@en-9r(-(6=*uiw1xsds&(xxpjea=0bzr%nozw=25$vj)'
-      SECRET_KEY: '8=wmxtm$obl=!j4-t!m6w)j=tt)s=od6*j_8k^_i8@4cr)2pi_'
+      DB_NAME:  
+      DB_USERNAME: 
+      DB_PASSWORD: 
+      DECODE_KEY: 
+      SECRET_KEY: 
       DB_HOSTNAME: 52.66.199.15
     ports:
       - 8000:8000
