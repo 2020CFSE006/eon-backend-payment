@@ -20,5 +20,5 @@ dbName:
 dbUsername:
 dbPassword:
 dbPort:
-decodeKey: 
+encodeKey: 
 secretKey: 
