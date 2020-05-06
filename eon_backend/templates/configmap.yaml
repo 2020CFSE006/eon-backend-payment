@@ -5,7 +5,7 @@ data:
   DB_NAME: '{{ .Values.dbName }}'
   DB_USERNAME: '{{ .Values.dbUsername }}'
   DB_PASSWORD: '{{ .Values.dbPassword }}'
-  DECODE_KEY: '{{ .Values.decodeKey }}'
+  DECODE_KEY: '{{ .Values.encodeKey }}'
   DB_PORT: '{{ .Values.dbPort }}'
   SECRET_KEY: '{{ .Values.secretKey }}'
 kind: ConfigMap
