@@ -30,7 +30,14 @@ phases:
       - sleep 10
 #      - helm init --upgrade
 #      - helm del --purge eon-backend-payment
-      - helm install --name eon-backend-payment eon_backend/ --namespace eon-backend-namespace
+      - "helm upgrade --install --force eon-backend-payment eon_backend/ --namespace eon-backend-namespace --set dbHostname=$DB_HOSTNAME --set dbName=$DB_NAME --set dbUsername=$DB_USERNAME --set dbPassword=$DB_PASSWORD --set dbPort=$DB_PORT --set decodeKey=$DECODE_KEY --set secretKey=$SECRET_KEY --set image=$IMAGE" 
+      - sleep 10 
+      - kubectl get services -o wide -n eon-backend-namespace
+
+artifacts:
+  files:
+    - '**/*'
+
 #      - helm upgrade --recreate-pods eon-backend-payment eon_backend/
       - sleep 10 
       - kubectl get services -o wide -n eon-backend-namespace
