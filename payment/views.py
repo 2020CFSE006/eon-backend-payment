@@ -9,6 +9,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.authentication import get_authorization_header
 
 from eon_payment.settings import APP_CONSTANTS, DECODE_KEY
+from payment.auth import CustomJWTAuthentication
 from payment.models import Payment
 from payment.serializers import PaymentSerializer
 from utils.common import api_error_response, api_success_response
@@ -17,6 +18,7 @@ CONSTANTS = APP_CONSTANTS['transaction']['values']
 
 
 class EventPaymentViewSet(ModelViewSet):
+    authentication_classes = [CustomJWTAuthentication]
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
 
@@ -36,10 +38,9 @@ class EventPaymentViewSet(ModelViewSet):
         year = now.year
         month = now.month
 
-        token = get_authorization_header(request).split()[1]
-        payload = jwt.decode(token, DECODE_KEY)
+        token = request.headers.get('authorization', None).split()[1]
+        payload = jwt.decode(token, DECODE_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
-
         if not discount_amount:
             discount_amount = 0
         if not total_amount:
@@ -79,7 +80,8 @@ class EventPaymentViewSet(ModelViewSet):
         list_of_payment_ids = data.get("list_of_payment_ids")
 
         token = get_authorization_header(request).split()[1]
-        payload = jwt.decode(token, DECODE_KEY)
+
+        payload = jwt.decode(token, DECODE_KEY, algorithms=['HS256'])
         user_id = payload['user_id']
 
         user_instance = self.queryset.filter(user_id=user_id)

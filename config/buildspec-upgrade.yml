@@ -18,20 +18,16 @@ phases:
       - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
       - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
       - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
-      - aws --region ap-south-1 eks update-kubeconfig --name bits-pilani-eon --role-arn $EKS_KUBECTL_ROLE_ARN
+      - aws --region ap-south-1 eks update-kubeconfig --name $EKS_CLUSTER_NAME --role-arn $EKS_KUBECTL_ROLE_ARN
 
 
       - kubectl get nodes
       - kubectl apply -f tiller-user.yaml
-      - sleep 10
       - helm init --service-account tiller
-      - sleep 20
-    #  - helm init --upgrade
-#      - helm install --name eon-backend-payment eon_backend/
-  #    - helm upgrade --recreate-pods eon-backend-pay eon_backend/ --namespace eon-backend-ns
-      - helm upgrade --install --force eon-backend-pay --namespace eon-backend-ns ./eon_backend
-      - sleep 20 
-      - kubectl get services -o wide
+      - sleep 5
+      - "helm upgrade --install --force eon-backend-payment eon_backend/ --namespace eon-backend-namespace --set dbHostname=$DB_HOSTNAME --set dbName=$DB_NAME --set dbUsername=$DB_USERNAME --set dbPassword=$DB_PASSWORD --set dbPort=$DB_PORT --set decodeKey=$DECODE_KEY --set secretKey=$SECRET_KEY --image=$IMAGE" 
+      - sleep 10 
+      - kubectl get services -o wide -n eon-backend-namespace
 
 artifacts:
   files:

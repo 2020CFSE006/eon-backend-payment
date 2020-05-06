@@ -7,6 +7,10 @@ phases:
       - chmod +x ./kubectl ./aws-iam-authenticator
       - export PATH=$PWD/:$PATH
       - export KUBECONFIG=$HOME/.kube/config
+      - export AWS_RAW_CRED=$(curl --silent http://169.254.170.2:80$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI)
+      - export AWS_ACCESS_KEY_ID=$(echo $AWS_RAW_CRED | jq -r '.AccessKeyId')
+      - export AWS_SECRET_ACCESS_KEY=$(echo $AWS_RAW_CRED | jq -r '.SecretAccessKey')
+      - export AWS_SESSION_TOKEN=$(echo $AWS_RAW_CRED | jq -r '.Token') 
       - wget https://get.helm.sh/helm-v2.16.3-linux-amd64.tar.gz
       - tar -zxvf helm-v2.16.3-linux-amd64.tar.gz
       - cd linux-amd64 && mv helm /usr/local/bin/ && cd ..
@@ -16,9 +20,6 @@ phases:
       - curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
       - mv /tmp/eksctl /usr/local/bin
       - CREDENTIALS=$(aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN  --role-session-name codebuild-kubectl --duration-seconds 900)
-      - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
-      - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
-      - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
       - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
       - aws eks --region ap-south-1  update-kubeconfig --name $EKS_CLUSTER_NAME --role-arn $EKS_KUBECTL_ROLE_ARN
       - cat /root/.kube/config
@@ -28,11 +29,12 @@ phases:
       - helm init --service-account tiller
       - sleep 10
 #      - helm init --upgrade
-      - helm del --purge eon-backend-pay
-      - helm install --name eon-backend-pay eon_backend/ --namespace eon-backend-ns
+#      - helm del --purge eon-backend-payment
+      - helm install --name eon-backend-payment eon_backend/ --namespace eon-backend-namespace
 #      - helm upgrade --recreate-pods eon-backend-payment eon_backend/
       - sleep 10 
-      - kubectl get services -o wide
+      - kubectl get services -o wide -n eon-backend-namespace
+
 
 artifacts:
   files:
