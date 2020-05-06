@@ -25,7 +25,7 @@ phases:
       - kubectl apply -f tiller-user.yaml
       - helm init --service-account tiller
       - sleep 5
-      - "helm upgrade --install --force eon-backend-payment eon_backend/ --namespace eon-backend-namespace --set dbHostname=$DB_HOSTNAME --set dbName=$DB_NAME --set dbUsername=$DB_USERNAME --set dbPassword=$DB_PASSWORD --set dbPort=$DB_PORT --set decodeKey=$DECODE_KEY --set secretKey=$SECRET_KEY --image=$IMAGE" 
+      - "helm upgrade --install --force eon-backend-payment eon_backend/ --namespace eon-backend-namespace --set dbHostname=$DB_HOSTNAME --set dbName=$DB_NAME --set dbUsername=$DB_USERNAME --set dbPassword=$DB_PASSWORD --set dbPort=$DB_PORT --set decodeKey=$DECODE_KEY --set secretKey=$SECRET_KEY --set image=$IMAGE" 
       - sleep 10 
       - kubectl get services -o wide -n eon-backend-namespace
 
