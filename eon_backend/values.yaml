@@ -16,4 +16,10 @@ limits_cpu: 2000m
 service: demo
 containerport: 8000
 exposedport: 8000
-
+dbHostname: 52.66.199.15
+dbName: mongodb
+dbUsername: bits-pilani
+dbPassword: ty46PwpFuM74D
+dbPort: 27017
+decodeKey: "sc6#6@en-9r(-(6=*uiw1xsds&(xxpjea=0bzr%nozw=25$vj)"
+secretKey: "8=wmxtm$obl=!j4-t!m6w)j=tt)s=od6*j_8k^_i8@4cr)2pi_"

@@ -1,13 +1,13 @@
 apiVersion: v1
 data:
-  CLOUD_PROVIDER:
-  DB_HOSTNAME: "13.127.119.62"
-  DB_NAME: "mongodb"
-  DB_USERNAME: "bits-pilani"
-  DB_PASSWORD: "bits@pilani"
-  DECODE_KEY: "EAod6K1rmoKQJbEJKOoElVEvptLDPnlc"
-  DB_PORT: "27017"
-  SECRET_KEY: "8=wmxtm$obl=!j4-t!m6w)j=tt)s=od6*j_8k^_i8@4cr)2pi_"
+  CLOUD_PROVIDER: aws
+  DB_HOSTNAME: '{{ .Values.dbHostname }}'
+  DB_NAME: '{{ .Values.dbName }}'
+  DB_USERNAME: '{{ .Values.dbUsername }}'
+  DB_PASSWORD: '{{ .Values.dbPassword }}'
+  DECODE_KEY: '{{ .Values.decodeKey }}'
+  DB_PORT: '{{ .Values.dbPort }}'
+  SECRET_KEY: '{{ .Values.secretKey }}'
 kind: ConfigMap
 metadata:
   labels:

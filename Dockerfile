@@ -52,4 +52,9 @@ ENV DEBUG False
 # - All logs are to stdout / stderr
 # - Access log format is modified to include %(L)s - which is the request time in decimal seconds
 #CMD python3 manage.py runserver
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD gunicorn -b 0.0.0.0:$PORT --workers $NUM_WORKERS \
+    --name eon_payment \
+    --access-logfile '-' --error-logfile '-' --log-level $LOG_LEVEL \
+    --access-logformat '%(h)s %(l)s %(u)s %(t)s %(L)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"' \
+    eon_payment.wsgi
