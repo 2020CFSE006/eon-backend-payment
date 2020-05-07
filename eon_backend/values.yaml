@@ -14,11 +14,11 @@ limits_memory: 3584Mi
 limits_cpu: 2000m
 service: demo
 containerport: 8000
-exposedport: 8000
+exposedport: 80
 dbHostname:
 dbName:
 dbUsername:
 dbPassword:
 dbPort:
-encodeKey: 
+decodeKey: 
 secretKey: 
